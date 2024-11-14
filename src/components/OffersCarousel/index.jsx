@@ -14,24 +14,24 @@ import { Container, ContainerItens, Title } from "./styles"
 
 
 
-export function CategoriesCarrosel() {
+export function OfferCarousel() {
 
-    const [categories, setCategories] = useState([])
+    const [offers, setOffers] = useState([])
 
 
     useEffect(() => {
 
-        async function loadCategories() {
+        async function loadProducts() {
 
-            const { data } = await api.get("/categories")
+            const { data } = await api.get("/products")
 
-            setCategories(data)
-           
-
+            const onlyOffers = data.filter(product => product.offer === true)
 
 
+
+            setOffers(onlyOffers)
         }
-        loadCategories();
+        loadProducts();
     }, []);
 
 
@@ -60,7 +60,7 @@ export function CategoriesCarrosel() {
 
         <Container>
 
-            <Title>Categorias</Title>
+            <Title>Ofertas do dia</Title>
 
             <Carousel
                 responsive={responsive}
@@ -68,9 +68,9 @@ export function CategoriesCarrosel() {
                 partialVisible={false}
                 itemClass="carousel-item">
 
-                {categories.map((category) => (
-                    <ContainerItens key={category.id} imageUrl={category.url}>
-                        <p>{category.name}</p>
+                {offers.map((product) => (
+                    <ContainerItens key={product.id} imageUrl={product.url}>
+                        <p>{product.name}</p>
 
                     </ContainerItens>
                 ))}
