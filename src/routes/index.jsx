@@ -3,23 +3,33 @@ import { Login } from "../containers/login";
 import { Register } from "../containers/Register";
 
 import { Home } from "../containers/home";
+import { Menu } from "../containers/Menu";
 
 
 
 export const router = createBrowserRouter([
 
 {
-    path:"/login",
+    path:"/",
+    element: <Login/>,
+},
+{
+    path:"/Login",
     element: <Login/>,
 },
 
 {
-    path:"/cadastro",
+    path:"/Cadastro",
     element: <Register/>,
 },
 {
-    path: "/home",
+    path: "/Home",
     element: <Home/>
+    
+},
+{
+    path: "/cardapio",
+    element: <Menu/>
     
 }
 

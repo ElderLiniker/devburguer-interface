@@ -38,7 +38,3 @@ height: 800px;
 
 `
 
-export const Content = styled.div`
-
-padding-bottom:70px;
-`

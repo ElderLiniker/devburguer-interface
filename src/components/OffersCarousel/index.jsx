@@ -10,7 +10,9 @@ import { api } from "../../services/api"   //preciso umporta minha api para busc
 
 
 
-import { Container, ContainerItens, Title } from "./styles"
+import { Container, Title } from "./styles"
+import { CardProduct } from "../CardProduct"
+import { FormatPrice } from "../../utils/formatprice"
 
 
 
@@ -25,7 +27,7 @@ export function OfferCarousel() {
 
             const { data } = await api.get("/products")
 
-            const onlyOffers = data.filter(product => product.offer === true)
+            const onlyOffers = data.filter(product => product.offer === true).map(product => ({ currencyvalue: FormatPrice(product.price), ...product, }))
 
 
 
@@ -69,10 +71,10 @@ export function OfferCarousel() {
                 itemClass="carousel-item">
 
                 {offers.map((product) => (
-                    <ContainerItens key={product.id} imageUrl={product.url}>
-                        <p>{product.name}</p>
+                    <CardProduct key={product.id} product={product} />
 
-                    </ContainerItens>
+
+
                 ))}
 
 
