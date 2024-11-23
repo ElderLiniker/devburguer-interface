@@ -9,9 +9,9 @@ align-items: center;
 padding: 20px;
 border-radius: 8px;
 background-color: #fff;
-
 cursor: grab;
 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+position: relative;
 
  div {
     width: 100%;
