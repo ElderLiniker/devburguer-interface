@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { Container, Banner, CategoryMenu, ProductContainer, CategoryButton } from "./styles"
+import { Container, Banner, CategoryMenu, ProductContainer, CategoryButton, Buttonvoltar } from "./styles"
+
+import Voltar from "../../assets/de-volta.png"
+
 
 import { api } from "../../services/api"
 import { FormatPrice } from "../../utils/formatprice";
 import { CardProduct } from "../../components/CardProduct";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 export function Menu() {
@@ -13,7 +16,31 @@ export function Menu() {
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([])
 
+    const [filterProducts, setFilterProducts] = useState([])
+
+
     const navigate = useNavigate()
+
+    const { search } = useLocation()
+
+    const queryparams = new URLSearchParams(search)
+
+
+
+    const [activeCategory, setActiveCategory] = useState(() => {
+
+        const categoryId = +queryparams.get("categoria");
+
+        if (categoryId) {
+            return categoryId
+        }
+
+        return 0
+
+
+    })
+
+    useLocation()
 
     useEffect(() => {
 
@@ -53,6 +80,20 @@ export function Menu() {
     }, []);
 
 
+    useEffect(() => {
+        if (activeCategory === 0) {
+            setFilterProducts(products)
+        }
+        else {
+            const newFilterRedProducts = products.filter(product => product.category_id === activeCategory)
+
+
+            setFilterProducts(newFilterRedProducts)
+
+
+        }
+
+    }, [products, activeCategory])
 
     return (
 
@@ -73,18 +114,48 @@ export function Menu() {
 
 
             <CategoryMenu>
+
+                <Buttonvoltar>
+                    
+                  
+
+                    <img onClick={() => {
+                        setTimeout(() => {
+                            navigate({
+                                pathname: "/home",
+    
+                            })
+                            
+                        },500);
+
+
+
+                       
+                    }} src={Voltar} alt="" />
+
+
+                </Buttonvoltar>
+
+
+
                 {categories.map((category) => (
 
                     <CategoryButton key={category.id}
+                        $isActiveCategory={category.id === activeCategory}
                         onClick={() => {
                             navigate({
-                                pathname:"/cardapio",
-                                search: `?categoria=${category.id}` ,
+                                pathname: "/cardapio",
+                                search: `?categoria=${category.id}`,
                             }
-                        ,
-                    {
-                      replace:true,  
-                    })
+                                ,
+                                {
+                                    replace: true,
+                                },
+
+                            )
+
+
+                            setActiveCategory(category.id)
                         }}
 
                     >{category.name}</CategoryButton>
@@ -95,7 +166,7 @@ export function Menu() {
 
 
             <ProductContainer>
-                {products.map(product => (
+                {filterProducts.map(product => (
                     <CardProduct key={product.id} product={product} />
                 ))}
 
@@ -109,3 +180,7 @@ export function Menu() {
     )
 
 }
+
+
+
+

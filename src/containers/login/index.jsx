@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
+
+import { userUser } from "../../hooks/UserContext";
+
 import { api } from "../../services/api";
 
 import { toast } from "react-toastify"// biblioeteca para notificar ao usuario se a senha esta correta ou incorreta//
@@ -29,6 +32,8 @@ export function Login() {
 
     const navigate = useNavigate()
 
+    const {putUserData} = userUser()
+
 
     const schema = yup.object({
         email: yup.string().email("Digite um email válido").required("O email é obrigatório"),
@@ -42,11 +47,7 @@ export function Login() {
     });
     const onSubmit = async data => {
 
-
-
-
-        
-        const {data:{token},} = await toast.promise(api.post("/session",   //aqui esta vindo la da api, pegando da rota de session - e isso e uma biblioetca//
+        const {data:userData} = await toast.promise(api.post("/session",   //aqui esta vindo la da api, pegando da rota de session - e isso e uma biblioetca//
             {       
             email: data.email,
             password: data.password,
@@ -60,7 +61,7 @@ export function Login() {
 
 
                         setTimeout(() => {
-                            navigate("/Home")
+                            navigate("/home")
                             
                         }, 2000);
                       return 'Seja Bem-vindo(a) 👌'
@@ -74,8 +75,9 @@ export function Login() {
 
         )
 
+        putUserData(userData)
 
-       localStorage.setItem("token", token)
+
     }
 
     return (

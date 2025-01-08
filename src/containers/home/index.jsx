@@ -10,6 +10,7 @@ import { Banner, Container } from "./styles";
 
 
 
+
 export function Home() {
 
 

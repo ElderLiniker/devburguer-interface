@@ -75,7 +75,8 @@ export const CategoryButton = styled(Link)`
 text-decoration: none;
 cursor: pointer;
 background: none;
-color: #9758a6;
+color:${(props) => props.$isActiveCategory ?  "#9758a6" :" #696969"
+};
 font-size: 24px;
 
 font-weight:500;
@@ -83,12 +84,13 @@ font-weight:500;
 padding-bottom: 5px;
 
 line-height: 20px;
+border: none;
+ border-bottom: ${(props) => props.$isActiveCategory ? '3px solid #9758a6 ' : 'none'};
 
-border-bottom:3px solid #9758a6
 
-;
 
 `
+;
 
 export const ProductContainer = styled.div`
 display: grid;
@@ -103,4 +105,34 @@ margin: 50px auto 0;
 
 
 
+`
+
+export const Buttonvoltar = styled(Link)`
+
+position: absolute;
+height: 28px;
+border: none;
+border-radius: 10px;
+padding: 5px;
+
+z-index: 1;
+
+margin-bottom: 10px;
+
+background-color: #c0c0c0;
+
+color: #fff;
+
+left: 20px;
+
+&:hover{
+    opacity: 0.8;
+}
+
+
+& img {
+    width: 20px ;
+
+    height: 18px;
+}
 `

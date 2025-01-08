@@ -1,4 +1,6 @@
 import PropTypes from "prop-types"
+
+import { useCart } from "../../hooks/CardContext"
 import { CardImagem,  Container } from "./styles"
 import { CardButton } from "../CardButton"
 
@@ -6,7 +8,10 @@ import { CardButton } from "../CardButton"
 
 
 
+
 export function CardProduct({product}){
+
+    const {putProductInCart} = useCart()
 
 console.log(product)
 
@@ -29,7 +34,7 @@ console.log(product)
                 </div>
 
 
-<CardButton></CardButton>
+<CardButton onClick={()=>putProductInCart(product)}></CardButton>
             
         </Container>
     )

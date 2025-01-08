@@ -10,13 +10,19 @@ import { api } from "../../services/api"   //preciso umporta minha api para busc
 
 
 
-import { Container, ContainerItens, Title } from "./styles"
+import { CategoryButton, Container, ContainerItens, Title } from "./styles"
+import { useNavigate } from "react-router-dom"
+
+
+
 
 
 
 export function CategoriesCarrosel() {
 
     const [categories, setCategories] = useState([])
+
+    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -26,7 +32,7 @@ export function CategoriesCarrosel() {
             const { data } = await api.get("/categories")
 
             setCategories(data)
-           
+
 
 
 
@@ -70,7 +76,16 @@ export function CategoriesCarrosel() {
 
                 {categories.map((category) => (
                     <ContainerItens key={category.id} imageUrl={category.url}>
-                        <p>{category.name}</p>
+                        <CategoryButton onClick={() => {
+                            navigate(
+                                {
+                                    pathname: "/cardapio",
+                                    search: `?categoria=${category.id}`,
+                                },
+                            )
+                        }} >{category.name}</CategoryButton>
+
+
 
                     </ContainerItens>
                 ))}

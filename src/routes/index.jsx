@@ -6,6 +6,11 @@ import { Home } from "../containers/home";
 import { Menu } from "../containers/Menu";
 
 
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
+import { Cart } from "../containers/cart";
+
+
 
 export const router = createBrowserRouter([
 
@@ -14,24 +19,41 @@ export const router = createBrowserRouter([
     element: <Login/>,
 },
 {
-    path:"/Login",
+    path:"/login",
     element: <Login/>,
 },
 
 {
-    path:"/Cadastro",
+    path:"/cadastro",
     element: <Register/>,
 },
 {
-    path: "/Home",
-    element: <Home/>
+    path: "/home",
+    element:
+    (
+        <>
+        <Header/>
+        <Home/>
+        <Footer/>
+        </>
+
+    ),
     
 },
 {
     path: "/cardapio",
-    element: <Menu/>
+    element:(
+        <>
+        <Header/>
+        <Menu/>
+        </>
+
+    ), 
     
-}
+}, {
+    path: "/carrinho",
+    element: <Cart/>
+},
 
 
 ])
