@@ -8,7 +8,7 @@ export function CardButton ({...props}){
 
     return(
 <div>
-<ContainerButton>
+<ContainerButton {...props} >
     <img src= {Cart}   alt="carrinho-de-compras"/>
     </ContainerButton>
 </div>

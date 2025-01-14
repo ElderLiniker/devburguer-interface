@@ -13,13 +13,13 @@ export function CardProduct({product}){
 
     const {putProductInCart} = useCart()
 
-console.log(product)
+
 
 
     return(
 
         <Container>
-            <CardImagem img src={product.url} alt={product.name}/>
+            <CardImagem src={product.url} alt={product.name}/>
 
                 <div>
                     <p>

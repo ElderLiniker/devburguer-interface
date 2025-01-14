@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 
 
+
+
 export const Container = styled.div`
 .carousel-item{
     padding-right:40px;
@@ -67,7 +69,7 @@ margin-top: 20px;
 
 
 export const ContainerItens = styled.div`
-background: url("${(props)=> props.imageUrl}");
+background-image: url("${(props)=> props.imageUrl}");
 background-position:center;
 background-size:cover;
 

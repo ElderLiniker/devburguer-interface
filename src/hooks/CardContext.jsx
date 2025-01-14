@@ -11,6 +11,10 @@ export const CartProvider = ({ children }) => {
     const putProductInCart = (product) => {
         const cartIndex = cartProducts.findIndex((prd) => prd.id === product.id)
 
+        
+
+    
+
         let newProductsInCart = []
 
         if (cartIndex >= 0) {
@@ -35,15 +39,21 @@ export const CartProvider = ({ children }) => {
 
 
     }
+    
 
  
 
     const clearCart = (product) => {
+        setCartProducts([])
+
+        updateLocalStorage([])
 
     }
 
     const deleteProduct = (productId) => {
         const newCart = cartProducts.filter((prd) => prd.id !== productId)
+
+
         setCartProducts(newCart)
         updateLocalStorage(newCart)
 
@@ -56,10 +66,14 @@ export const CartProvider = ({ children }) => {
 
             return prd.id === productId ? { ...prd, quantity: prd.quantity + 1 } : prd
 
-            setCartProducts(newCart)
 
             updateLocalStorage(newCart)
         })
+
+        setCartProducts(newCart)
+        updateLocalStorage(newCart)
+
+
 
 
     }
@@ -67,7 +81,7 @@ export const CartProvider = ({ children }) => {
     const decreaseProduct = (productId) => {
         const cartIndex = cartProducts.findIndex((prd) => prd.id === productId)
 
-        if(cartIndex[cartIndex].quantity >1){
+        if(cartProducts[cartIndex].quantity >1){
 
             const newCart = cartProducts.map((prd) => {
 
@@ -83,13 +97,12 @@ export const CartProvider = ({ children }) => {
             deleteProduct(productId)
 
         }
+                        
 
     }
 
     const updateLocalStorage = (products)=>{
-        localStorage.setItem("devburguer:cartInfo", JSON.stringify(products)
-    
-        )
+        localStorage.setItem("devburguer:cartInfo", JSON.stringify(products))
     
         }
         
