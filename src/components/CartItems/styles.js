@@ -43,3 +43,15 @@ font-weight:bold;
 
 `
 
+export const ProductTotalPrince =styled.p`
+font-weight:bold ;
+
+
+`
+
+export const TrashImage= styled.img`
+height:20px ;
+width: 20px;
+cursor: pointer;
+`
+
