@@ -60,10 +60,10 @@ export default function CheckoutForm() {
         if (status === 200 || status === 201) {
             
             setTimeout(() => {
-                navigate("/home")
-                clearCart()
+                navigate(`/complete?payment_intent_client_secret=${paymentIntent.client_secret}`,)
+                
 
-            }, 2000);
+            }, 3000);
             clearCart()
             toast.success("Pedido Realizado com Sucesso!")
         }
@@ -82,8 +82,13 @@ export default function CheckoutForm() {
         toast.error("🥹 Falha no sistema ! Tente novamente")
 
     }
-    
+  }
+    else{
+      navigate(`/complete?payment_intent_client_secret=${paymentIntent.client_secret}`,)
     }
+   
+    
+    
 
     setIsLoading(false);
   };
@@ -104,7 +109,7 @@ export default function CheckoutForm() {
       <PaymentElement id="payment-element" options={paymentElementOptions} />
       <button disabled={isLoading || !stripe || !elements} id="submit" className="button">
         <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+          {isLoading ? <div className="spinner" id="spinner"></div> : "Pagar agora"}
         </span>
       </button>
       {/* Show any error or success messages */}
