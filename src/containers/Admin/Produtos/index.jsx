@@ -3,7 +3,7 @@
 
 
 
-export function Produtos(){
+export function Products(){
 
     return(
         <div>

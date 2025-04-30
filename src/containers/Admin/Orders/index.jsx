@@ -12,6 +12,10 @@ import { Row } from './row';
 import { useEffect, useState } from 'react';
 import { api } from "../../../services/api"
 
+import { Filter, FilterOptions } from "./styles"
+
+import { orderStatusOptions } from './orderStatus';
+
 
 
 
@@ -19,14 +23,23 @@ export function Orders() {
 
   const [orders, setOrders] = useState([])
 
+
+
+  const [filteredOrders, setfilteredOrders] = useState([])
+  const [activeStatus, setactiveStatus] = useState(0)
+
   const [rows, setRows] = useState([])
+
+
 
   useEffect(() => {
     async function loadOrders() {
 
       const { data } = await api.get("orders")
+      console.log(data)
 
       setOrders(data)
+      setfilteredOrders(data)
     }
     loadOrders()
   }, [])
@@ -39,15 +52,48 @@ export function Orders() {
       orderId: order._id,
       date: order.createdAt,
       status: order.status,
-      products: order.products,
+      products: order.products.map(product => ({
+        ...product,
+        quantity: Number(product.quantity), // conversão aqui
+      })),
+    };
+  }
+  useEffect(() => {
+
+    const newRows = filteredOrders.map((order) => createData(order))
+
+    setRows(newRows)
+
+  }, [filteredOrders])
+
+
+
+  function handlestatus(status) {
+    if (status.id === 0) {
+      setfilteredOrders(orders)
     }
+    else {
+      const newOrders = orders.filter((order) => order.status === status.value)
+
+      setfilteredOrders(newOrders)
+    }
+
+    setactiveStatus(status.id)
+
   }
 
   useEffect(() => {
+    if (activeStatus === 0) {
+      setfilteredOrders(orders)
+    }
+    else {
 
-    const newRows = orders.map((order) => createData(order))
+      const statusIndex = orderStatusOptions.findIndex((item) => item.id === activeStatus,
 
-    setRows(newRows)
+      )
+      const newFilterOrders = orders.filter((order) => order.status === orderStatusOptions[statusIndex].value,)
+      setfilteredOrders(newFilterOrders)
+    }
 
   }, [orders])
 
@@ -56,28 +102,44 @@ export function Orders() {
 
 
 
-
-
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
+    <>
+      <Filter>
+        {orderStatusOptions.map((status) => (
+          <FilterOptions key={status.id}
+            onClick={() => handlestatus(status)}
+            $isActiveStatus={activeStatus === status.id}
 
-            <TableCell >Pedido</TableCell>
-            <TableCell >Cliente</TableCell>
-            <TableCell >Data do Pedido</TableCell>
-            <TableCell >Status</TableCell>
+          >
+            {status.label}
+          </FilterOptions>))}
 
-          </TableRow>
-        </TableHead>
-        <TableBody>
-         {rows.map((row) => (
-            <Row key={row._id} row={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      </Filter>
+
+      <TableContainer component={Paper}>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow>
+              <TableCell />
+
+              <TableCell >Pedido</TableCell>
+              <TableCell >Cliente</TableCell>
+              <TableCell >Data do Pedido</TableCell>
+              <TableCell >Status</TableCell>
+
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <Row key={row.orderId}
+                row={row}
+                orders={orders}
+                setOrders={setOrders} />
+
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }
